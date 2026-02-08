@@ -1,14 +1,14 @@
+import { Stack } from "expo-router";
 import React, { Component } from "react";
-import { Text, View } from "react-native";
 
-export class TabsLayout extends Component {
+export class Layout extends Component {
   render() {
     return (
-      <View>
-        <Text>TabsLayout</Text>
-      </View>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
     );
   }
 }
 
-export default TabsLayout;
+export default Layout;

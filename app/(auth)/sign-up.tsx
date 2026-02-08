@@ -2,8 +2,8 @@ import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
-import { useSignUp } from "@clerk/clerk-expo";
-import { Link, useRouter } from "expo-router";
+import { useAuth, useSignUp } from "@clerk/clerk-expo";
+import { Link, Redirect, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
 import Modal from "react-native-modal";
@@ -69,6 +69,12 @@ const SignUp = () => {
       });
     }
   };
+
+  const { isSignedIn } = useAuth();
+
+  if (isSignedIn) {
+    return <Redirect href="/(root)/(tabs)/home" />;
+  }
 
   return (
     <ScrollView className="flex-1 bg-white">
