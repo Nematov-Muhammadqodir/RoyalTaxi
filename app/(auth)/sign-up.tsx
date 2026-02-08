@@ -10,10 +10,10 @@ import Modal from "react-native-modal";
 
 const SignUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
-  const [form, setForm] = useState({ name: "", password: "", email: "" });
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [form, setForm] = useState({ name: "", password: "", email: "" });
   const router = useRouter();
-  const [code, setCode] = React.useState("");
+
   const [verification, setVerification] = useState({
     state: "default",
     error: "",
@@ -48,23 +48,18 @@ const SignUp = () => {
       if (signUpAttempt.status === "complete") {
         await setActive({
           session: signUpAttempt.createdSessionId,
-          navigate: async ({ session }) => {
-            if (session?.currentTask) {
-              console.log(session?.currentTask);
-              return;
-            }
-
-            router.replace("/");
-          },
         });
-        setVerification({ ...verification, state: "success" });
+
+        setVerification({
+          ...verification,
+          state: "success",
+        });
       } else {
         setVerification({
           ...verification,
-          error: "Verification failed.",
+          error: "Verification failed. Please try again.",
           state: "failed",
         });
-        console.error(JSON.stringify(signUpAttempt, null, 2));
       }
     } catch (err: any) {
       setVerification({
@@ -125,9 +120,11 @@ const SignUp = () => {
 
         <Modal
           isVisible={verification.state === "pending"}
-          onModalHide={() =>
-            verification.state === "success" && setShowSuccessModal(true)
-          }
+          onModalHide={() => {
+            if (verification.state === "success") {
+              setShowSuccessModal(true);
+            }
+          }}
         >
           <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
             <Text className="text-2xl font-JakartaExtraBold mb-2">
@@ -176,7 +173,10 @@ const SignUp = () => {
             </Text>
             <CustomButton
               title="Browse Home"
-              onPress={() => router.replace("/(root)/(tabs)/home")}
+              onPress={() => {
+                setShowSuccessModal(false);
+                router.push("/(root)/(tabs)/home");
+              }}
               className="mt-5"
             />
           </View>
