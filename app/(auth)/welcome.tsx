@@ -3,14 +3,12 @@ import { onboarding } from "@/constants";
 import { router } from "expo-router";
 import { useRef, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import { useSharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Swiper from "react-native-swiper";
 
 const Welcome = () => {
   const swiper = useRef<Swiper>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const progressValue = useSharedValue(0);
   const isLastSlide = activeIndex === onboarding.length - 1;
 
   return (
