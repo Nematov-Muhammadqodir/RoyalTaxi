@@ -1,13 +1,14 @@
 import CustomButton from "@/components/CustomButton";
 import { onboarding } from "@/constants";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
-import Carousel from "react-native-reanimated-carousel";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Swiper from "react-native-swiper";
 
 const Welcome = () => {
+  const swiper = useRef<Swiper>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const progressValue = useSharedValue(0);
   const isLastSlide = activeIndex === onboarding.length - 1;
@@ -21,16 +22,18 @@ const Welcome = () => {
         <Text className="text-black text-md font-JakartaBold">Skip</Text>
       </TouchableOpacity>
 
-      <Carousel
+      <Swiper
+        ref={swiper}
         loop={false}
-        width={400}
-        height={500}
-        data={onboarding}
-        onProgressChange={(_, absoluteProgress) => {
-          progressValue.value = absoluteProgress;
-          setActiveIndex(Math.round(absoluteProgress));
-        }}
-        renderItem={({ item }) => (
+        dot={
+          <View className="w-[32px] h-[4px] mx-1 bg-[#E2E8F0] rounded-full" />
+        }
+        activeDot={
+          <View className="w-[32px] h-[4px] mx-1 bg-[#0286FF] rounded-full" />
+        }
+        onIndexChanged={(index) => setActiveIndex(index)}
+      >
+        {onboarding.map((item) => (
           <View className="flex items-center justify-center p-5">
             <Image
               source={item.image}
@@ -46,20 +49,8 @@ const Welcome = () => {
               {item.description}
             </Text>
           </View>
-        )}
-      />
-
-      {/* Pagination Dots */}
-      <View className="flex-row justify-center mb-5">
-        {onboarding.map((_, index) => (
-          <View
-            key={index}
-            className={`w-[32px] h-[4px] mx-1 rounded-full ${
-              index === activeIndex ? "bg-[#0286FF]" : "bg-[#E2E8F0]"
-            }`}
-          />
         ))}
-      </View>
+      </Swiper>
 
       <CustomButton
         title={isLastSlide ? "Get Started" : "Next"}
@@ -67,7 +58,7 @@ const Welcome = () => {
         onPress={() =>
           isLastSlide
             ? router.replace("/(auth)/sign-up")
-            : setActiveIndex(activeIndex + 1)
+            : swiper.current?.scrollBy(1)
         }
       />
     </SafeAreaView>
