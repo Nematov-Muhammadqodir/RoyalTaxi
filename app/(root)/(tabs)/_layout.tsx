@@ -23,7 +23,11 @@ function TabIcon({ icon, focused }: TabIconProps) {
         focused ? "bg-general-300" : ""
       }`}
     >
-      <View className={`rounded-full w-12 h-12 items-center justify-center`}>
+      <View
+        className={`rounded-full w-12 h-12 items-center justify-center  ${
+          focused ? "bg-general-400" : ""
+        }`}
+      >
         {" "}
         <Image
           source={source}
@@ -32,6 +36,8 @@ function TabIcon({ icon, focused }: TabIconProps) {
             height: 24,
             opacity: focused ? 1 : 0.4,
           }}
+          resizeMode="contain"
+          className="w-7 h-7"
         />
       </View>
     </View>
@@ -42,7 +48,24 @@ export default function TabLayout() {
   return (
     <Tabs
       initialRouteName="home"
-      screenOptions={{ tabBarActiveTintColor: "blue", headerShown: false }}
+      screenOptions={{
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "white",
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: "#333333",
+          borderRadius: 50,
+          overflow: "hidden",
+          marginHorizontal: 20,
+          marginBottom: 20,
+          height: 78,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexDirection: "row",
+          position: "absolute",
+        },
+      }}
     >
       <Tabs.Screen
         name="home"
