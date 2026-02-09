@@ -28,7 +28,6 @@ function TabIcon({ icon, focused }: TabIconProps) {
           focused ? "bg-general-400" : ""
         }`}
       >
-        {" "}
         <Image
           source={source}
           style={{
@@ -78,6 +77,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="rides"
+        options={{
+          title: "Rides",
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} icon="rides" />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="chat"
         options={{
           title: "Chat",
@@ -97,16 +106,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="rides"
-        options={{
-          title: "Rides",
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon="rides" />
-          ),
-        }}
-      />
+
       {/* Add your other tab screens here */}
     </Tabs>
   );
