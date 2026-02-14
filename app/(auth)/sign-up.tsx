@@ -66,7 +66,7 @@ const SignUp = () => {
       } else {
         setVerification({
           ...verification,
-          error: "Verification failed. Please try again.",
+          error: "Verification hello failed. Please try again.",
           state: "failed",
         });
       }

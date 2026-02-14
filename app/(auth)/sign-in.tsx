@@ -32,6 +32,7 @@ const SignIn = () => {
 
     // Start the sign-in process using the email and password provided
     try {
+      console.log("SIGNIN", form);
       const signInAttempt = await signIn.create({
         identifier: form.email,
         password: form.password,
@@ -100,6 +101,7 @@ const SignIn = () => {
       });
 
       if (signInAttempt.status === "complete") {
+        console.log("signInAttempt.status === complete");
         await setActive({
           session: signInAttempt.createdSessionId,
           navigate: async ({ session }) => {
@@ -110,7 +112,7 @@ const SignIn = () => {
               return;
             }
 
-            router.replace("/");
+            router.replace("/(root)/(tabs)/home");
           },
         });
       } else {
